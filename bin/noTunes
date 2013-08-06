@@ -1,0 +1,17 @@
+#!/usr/bin/env coffee
+
+program    = require 'commander'
+{commands} = require '../lib/commands'
+pkg        = require '../package.json'
+
+program.version pkg.version
+
+for k, v of commands
+  (->
+    {desc, action} = v
+    program.command(k).description(desc).action action
+  )()
+
+program.parse process.argv
+
+program.help() if process.argv.length < 3
